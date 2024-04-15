@@ -1,0 +1,28 @@
+version: '3'
+services:
+
+ mysql:
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DB: mydb
+
+ backend:
+    build:
+      context: .
+    ports:
+      - '5000:5000'
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DB: mydb
+    depends_on:
+      - mysql
+
+networks:
+  default:
+    name: twotier-network
+    external: false
